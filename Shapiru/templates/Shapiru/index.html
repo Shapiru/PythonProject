@@ -1,0 +1,69 @@
+{% extends 'Shapiru/base.html' %}
+{% block title%} PYTHON MEMBERS {% endblock %}
+
+{% block content%}
+
+    <div class="row">
+        {% if profiles %}
+            {% for prof in profiles %}
+            <div class="col-sm-3">
+                 <div class="card card-body my-1" style="background-color:{% if prof.is_female %}pink; {% else %}blue; {% endif %}">
+                     <h4 class="text-center"
+                            style="white-space: nowrap;
+                            overflow:hidden;
+                            text-overflow:ellipsis
+                            max-width:90%
+                            border-bottom:1px solid black;
+                            font-family:Kaushan Script;">{{prof.name}}</h4>
+                     <img src="{{prof.photo.url}}" class="rounded-circle mx-auto img-fluid" alt="" style="height:250px; width:200px" >
+                     <div class="caption">
+                         <h5 class="text-center" style="font-family:Shadows Into Light ;">{{prof.occupation}}</h5>
+                         <h6 class="text-center"
+                             style="white-space: nowrap;
+                             overflow:hidden;
+                             text-overflow:ellipsis
+                             max-width:90%
+                             font-family:Shadows Into Light ">{{prof.slogan}} </h6>
+                         <button class="btn btn-info btn-sm" data-toggle="modal"
+                                 data-target="#modal-{{prof.id}}">
+                             <i class="fas fa-info"></i>
+                         </button>
+                         <a href="{% url 'Shapiru:delete-member' prof.id %} " class="btn btn-danger btn-sm" style="float: right;">
+                             <i class="fas fa-trash" ></i>
+                         </a>
+                     </div>
+                 </div>
+                <!--Modal-->
+                <div class="modal fade " id="modal-{{prof.id}}" role="dialog" >
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                     <div class="modal-header">
+                        <h4 class="modal-title" style="font-family:Akronim;">{{prof.name}}</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                        <div class="modal-body"  >
+                            <p style="font-family:Courgette;">
+                                {{prof.name}} is {{prof.age}}. The subject is of  {{prof.nationality}} origin and
+                                 began to study at {{prof.primary}} then later joined {{prof.secondary}} and is  currently at {{prof.campus}}
+                                pursuing a degree in {{prof.course}}. The subject is a {{prof.occupation}}
+                                by profession and resides in {{prof.residence}}. {{prof.name}} tends to believe: {{prof.slogan}} and loves {{prof.hobby}} during
+                                leisure. If needed, contact through <a href="mailto:{{prof.email}}">{{prof.email}}</a>.
+                            </p>
+
+                        </div>
+                        <div class="modal-footer">
+
+                            <a href="{% url 'Shapiru:update-member' prof.id %} " class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-edit"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
